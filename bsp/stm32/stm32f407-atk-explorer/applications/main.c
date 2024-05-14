@@ -63,10 +63,9 @@ void hardware_init(void)
 
 }
 
-int main(void)
+rt_thread_t OLED_thread;
+void OLED_entry(void *p)
 {
-    hardware_init();
-    OLED_Clear();
     u32 sel = 0;
     u8 refresh = 0;
     while(1) 
@@ -95,5 +94,21 @@ int main(void)
             refresh = 0;
             OLED_DrawBMP(0,0,128,8,BMP1);  //图片显示(图片显示慎用，生成的字表较大，会占用较多空间，FLASH空间8K以下慎用)
         }
-    }	  
+    }	
+}
+
+int main(void)
+{
+    hardware_init();
+    OLED_Clear();
+    OLED_thread = rt_thread_create("OLED_work", OLED_entry, RT_NULL, 512, 15, 5);
+    if(OLED_thread != RT_NULL)
+    {
+        rt_thread_startup(OLED_thread);
+    }
+    else
+    {
+        rt_kprintf("create OLED_work thread failed\n");
+    }
+    rt_kprintf("start_running\r\n");
 }
