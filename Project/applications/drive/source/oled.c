@@ -316,9 +316,9 @@ void OLED_Init(void)
     rt_pin_mode(SCL, PIN_MODE_OUTPUT_OD);
     rt_pin_mode(SDA, PIN_MODE_OUTPUT_OD);
 
-rt_thread_mdelay(200);
+	rt_thread_mdelay(200);
 
-OLED_WR_Byte(0xAE,OLED_CMD);//--display off
+    OLED_WR_Byte(0xAE,OLED_CMD);//--display off
 	OLED_WR_Byte(0x00,OLED_CMD);//---set low column address
 	OLED_WR_Byte(0x10,OLED_CMD);//---set high column address
 	OLED_WR_Byte(0x40,OLED_CMD);//--set start line address  
